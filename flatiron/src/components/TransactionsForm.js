@@ -29,6 +29,7 @@ function TransactionForm({ onSubmit }) {
   }
 
   return (
+    <div>
     <form onSubmit={handleSubmit}>
       <label>category:</label>
       <input
@@ -46,16 +47,18 @@ function TransactionForm({ onSubmit }) {
         required
       />
 
-      <label>Amount:
+      <label>Amount:</label>
       <input
         type="number"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         required
       />
-     </label>
-     <button type="submit">Add</button>
+     
       </form>
+      
+      <button type="submit">Add Transaction</button>
+      </div>
   )
  
 }
