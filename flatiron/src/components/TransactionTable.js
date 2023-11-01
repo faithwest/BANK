@@ -1,7 +1,7 @@
 import React from "react";
 
 function TransactionTable({ transactions, onTransactionDelete }) {
-  const handleDelete = (transId) => {onTransactionDelete(transId)
+  const handleTransactionDelete = (transactionId) => {onTransactionDelete(transactionId)
   };
   const tableStyle = {
     width: "100%",
@@ -52,7 +52,7 @@ function TransactionTable({ transactions, onTransactionDelete }) {
               <td style={cellStyle}>{transaction.category}</td>
               <td style={cellStyle}>{transaction.amount}</td>
               <td style={cellStyle}>
-              <button style={{...deleteButtonStyle, cursor: "pointer"}} type="button"  onClick={() => handleDelete(trans.Id)}>
+              <button style={{...deleteButtonStyle, cursor: "pointer"}} type="button"  onClick={() => onTransactionDelete(transaction.Id)}>
                   Delete
                 </button>
               </td>
