@@ -57,7 +57,9 @@ function TransactionForm({ onSubmit }) {
      
       </form>
       
-      <button type="submit">Add Transaction</button>
+      <button type="submit" onClick={
+        handleSubmit
+      }>Add Transaction</button>
       </div>
   )
  

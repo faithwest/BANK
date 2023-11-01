@@ -44,8 +44,7 @@ function App() {
       type="text"
       placeholder="Search transactions "
       value={Search}
-      required
-      onChange={(e) => setSearch(e.target.value)}
+      onClick={(e) => setSearch(e.target.value)}
       /> 
       <button onClick={handleClearSearch}>Clear</button>
      
