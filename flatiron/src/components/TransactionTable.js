@@ -1,6 +1,8 @@
 import React from "react";
 
 function TransactionTable({ transactions, onTransactionDelete }) {
+  const handleDelete = (transId) => {onTransactionDelete(transId)
+  };
   const tableStyle = {
     width: "100%",
     border: "1px solid #ccc",
@@ -50,7 +52,7 @@ function TransactionTable({ transactions, onTransactionDelete }) {
               <td style={cellStyle}>{transaction.category}</td>
               <td style={cellStyle}>{transaction.amount}</td>
               <td style={cellStyle}>
-              <button style={{...deleteButtonStyle, cursor: "pointer"}} type="button"  onClick={() => onTransactionDelete(transaction.id)}>
+              <button style={{...deleteButtonStyle, cursor: "pointer"}} type="button"  onClick={() => handleDelete(trans.Id)}>
                   Delete
                 </button>
               </td>

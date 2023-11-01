@@ -17,11 +17,11 @@ function App() {
       
   }, []);
 
-  // const filtered = transactions.filter((transaction) => transaction.description.includes(Search))//
-  // const handleAddTransaction = (transaction) => {
-  //   setTransactions([...transactions, transaction]);
+  const filtered = transactions.filter((transaction) => transaction.description.includes(Search))//
+  const handleAddTransaction = (transaction) => {
+    setTransactions([...transactions, transaction]);
 
-  // };
+  };
   const handleTransactionDelete = (id) => {
     setTransactions(transactions.filter((transaction) => transaction.id!== id));
     };
@@ -37,11 +37,11 @@ function App() {
 
     return (
           <div>
-            {/* <h1>Transaction Tracker</h1>
+            <h1>Transaction Tracker</h1>
       <TransactionForm onSubmit={handleAddTransaction} 
         onChange={(e) => setSearch(e.target.value)}
       />
-      */}
+   
            <TransactionTable
            transactions={filtered}
            onTransactionDelete={handleTransactionDelete}
