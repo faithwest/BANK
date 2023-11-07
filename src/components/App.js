@@ -1,57 +1,94 @@
 import React, { useState, useEffect } from 'react';
-import TransactionForm from './TransactionsForm';
-import TransactionTable from './TransactionTable';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Navigation from './Navigation';
+import Layout from './Layout';
+import Home from './Home';
+import AboutUs from './AboutUs';
 
 function App() {
-  const [transactions, setTransactions] = useState([]);
-  const [Search, setSearch] = useState('');
+  const [Contests, setContests] = useState([]);
+  const [showContestTable, setShowContestTable] = useState(true);
 
   useEffect(() => {
-    // Fetch transactions from your API or server
-    fetch("http://localhost:3000/transactions")
-      .then((res) => res.json())
-      .then((data) => {
-        setTransactions(data);
-      });
+    fetch("http://localhost:3000/contests")
+      .then(response => response.json())
+      .then(data => setContests(data))
+      .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  const filtered = transactions.filter((transaction) => transaction.description.includes(Search));
+  const handleAddContest = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:3000/contests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: e.target.name.value,
+        url: e.target.url.value,
+        start_time: e.target.start_time.value,
+        end_time: e.target.end_time.value,
+        site: e.target.site.value,
+      }),
+    })
+      .then(response => response.json())
+      .then((data) => {
+        console.log('Success in adding contest', data);
+        setContests([...Contests, data]);
+        e.target.name.value = '';
+        e.target.url.value = '';
+        e.target.start_time.value = '';
+        e.target.end_time.value = '';
+        e.target.site.value = '';
+        setShowContestTable(false);
+      });
+  }
 
-  const handleAddTransaction = (transaction) => {
-    setTransactions([...transactions, transaction]);
-  };
-
-  const handleTransactionDelete = (id) => {
-    setTransactions(transactions.filter((transaction) => transaction.id !== id));
-  };
-
-  const handleSearchChange = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const handleClearSearch = () => {
-    setSearch('');
-  };
+  const ContestList = () => {
+    return (
+      <div>
+        <h1>Contests</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>URL</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Site</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Contests.map((contest, index) => (
+              <tr key={index}>
+                <td>{contest.name}</td>
+                <td>
+                  <a href={contest.url} target="_blank" rel="noopener noreferrer">
+                    {contest.url}
+                  </a>
+                </td>
+                <td>{new Date(contest.start_time).toLocaleString()}</td>
+                <td>{new Date(contest.end_time).toLocaleString()}</td>
+                <td>{contest.site}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h1>Transaction Tracker</h1>
-      <TransactionForm onSubmit={handleAddTransaction} />
-      <input
-        type="text"
-        placeholder="Search transactions"
-        value={Search}
-        onChange={handleSearchChange}
-      />
-      <button onClick={handleClearSearch}>Clear</button>
-
-      <TransactionTable
-         transactions={filtered}
-           onTransactionDelete={handleTransactionDelete}
-             onChange={(e) => {handleSearchChange(e)}
-    }
-     />
-    </div>
+    <Router>
+      <div>
+        <Navigation />
+        <Layout>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/about" component={AboutUs} />
+          <Route exact path="/contests" component={ContestList} />
+        </Layout>
+      </div>
+    </Router>
   );
 }
 
