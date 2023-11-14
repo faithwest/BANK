@@ -1,8 +1,7 @@
 import React from "react";
 
 function TransactionTable({ transactions, onTransactionDelete }) {
-  // const handleTransactionDelete = (transactionId) => {onTransactionDelete(transactionId)
-  // };
+  
   const tableStyle = {
     width: "100%",
     border: "1px solid #ccc",
